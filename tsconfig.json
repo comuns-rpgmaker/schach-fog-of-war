@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "target": "ES5",
+        "lib": ["ES5", "ES6", "DOM"],
+        "downlevelIteration": true,
+        "removeComments": true,
+        "strictNullChecks": true,
+        "baseUrl": "src"
+    },
+    "include": ["src/**/*", "spec/**/*"],
+    "exclude": ["node_modules"]
+}
