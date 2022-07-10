@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "redhat.vscode-yaml",
-        "ruakr.vsc-nwjs"
+        "ruakr.vsc-nwjs",
+        "raczzalan.webgl-glsl-editor"
     ]
 }

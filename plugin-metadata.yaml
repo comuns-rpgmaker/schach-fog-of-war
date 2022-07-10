@@ -1,8 +1,191 @@
 target: MZ
-author: Comuns
-description: Typescript plugin archetype
-help: |-  
-    Typescript Plugin Archetype.
+author: Brandt (Masked)
 
-    This is a plugin archetype, it does not provide any functionality, only a
-    template for other plugins.
+url: https://github.com/comuns-rpgmaker/schach-fog-of-war
+
+languages:
+  - pt
+
+description:
+  default: Fog of war plugin for immersive dungeons.
+  pt: Efeito de "fog of war" para construção de masmorras imersivas.
+
+help:
+  default: |-
+    This plugin creates a "fog of war" effect on annotated maps.
+
+    To enable the effect on a map, add the following tag to the map's notes:
+
+        [FoW]
+
+    By default, the player is the only source of "light" that clears the fog.
+    Events may be annotated to clear the fog, too, by adding the following
+    comment on their command list (once per page; different pages may have
+    different ranges):
+
+        [FoW light source (range = N)]
+
+    Where "N" should be replaced by the radius of the light in tiles.
+
+  pt: |-
+    Este plugin cria um efeito de "fog of war" em mapas anotados.
+
+    Para habilitar o efeito em um mapa, adicione o seguinte às notas do mapa:
+
+        [FoW]
+
+    Por padrão, a névoa é dispersa somente pelo jogador.
+    Eventos também podem ser anotados para limpar a névoa, adicionando um
+    comentário no seguinte formato à lista de comandos (um por página; páginas
+    diferentes podem ter raios diferentes):
+
+        [FoW light source (range = N)]
+
+    One "N" deve ser substituído pelo raio de névoa dispersa pelo evento, em
+    tiles.
+
+structs:
+  - name: Tint
+    params:
+      - name: red
+        type: number
+        min: 0
+        max: 1
+        decimals: 2
+        default: 0
+        text:
+          default: Red intensity
+          pt: Vermelho
+        description:
+          default: Red intensity (0-1)
+          pt: Intensidade de vermelho (0-1)
+      - name: green
+        type: number
+        min: 0
+        max: 1
+        decimals: 2
+        default: 0
+        text:
+          default: Green intensity
+          pt: Verde
+        description:
+          default: Green intensity (0-1)
+          pt: Intensidade de verde (0-1)
+      - name: blue
+        type: number
+        min: 0
+        max: 1
+        decimals: 2
+        default: 0
+        text:
+          default: Blue intensity
+          pt: Azul
+        description:
+          default: Blue intensity (0-1)
+          pt: Intensidade de azul (0-1)
+
+params:
+  - name: playerVisionRange
+    type: number
+    decimals: 0
+    min: 1
+    max: 200
+    default: 3
+    description:
+      default: Initial player vision radius in tiles.
+      pt: Valor inicial do raio de visão do jogador em tile.
+    text:
+      default: Player vision radius
+      pt: Raio de visão do jogador
+  - name: fogTint
+    struct: Tint
+    text:
+      default: Fog tint
+      pt: Coloração da névoa
+    description:
+      default: Initial tint color for the fog.
+      pt: Coloração inicial da névoa.
+    default:
+      red: "0"
+      green: "0"
+      blue: "0"
+  - name: fogDispersionTime
+    type: number
+    min: 0
+    max: 30
+    default: 0.3
+    decimals: 2
+    text:
+      default: Fog dispersion time
+      pt: Tempo de dispersão da névoa
+    description:
+      default: The time it takes for the fog to be completely dispersed by players/light sources in seconds.
+      pt: |-
+        Tempo necessário para que a névoa disperse completamente em torno do jogador ou outras fontes de luz, em
+        segundos.
+
+commands:
+  - name: setPlayerVisionRange
+    text:
+      default: Set player vision radius
+      pt: Definir raio de visão do jogador
+    description:
+      default: Sets the player vision range.
+      pt: Altera o raio de visão do jogador.
+    args:
+      - name: playerVisionRange
+        type: number
+        decimals: 0
+        min: 1
+        max: 200
+        default: 3
+        text:
+          default: Player vision radius
+          pt: Raio de visão do jogador
+        description:
+          default: Desired player vision radius in tiles.
+          pt: Raio de visão desejado para o jogador, em tiles.
+
+  - name: setFogTint
+    text:
+      default: Set fog tint
+      pt: Definir coloração da névoa
+    description:
+      default: Sets the fog tint color.
+      pt: Altera a coloração da névoa.
+    args:
+      - name: tint
+        struct: Tint
+        text:
+          default: Fog tint
+          pt: Coloração da névoa
+        description:
+          default: Desired tint color for the fog.
+          pt: Coloração desejada para a névoa.
+        default:
+          red: "0"
+          green: "0"
+          blue: "0"
+
+  - name: setFogDispersionTime
+    text:
+      default: Set fog dispersion time
+      pt: Definir tempo de dispersão da névoa
+    description:
+      default: Changes the time it takes for the fog of war to disperse completely around the player and light sources.
+      pt: Altera o tempo necessário para que a névoa disperse completamente em torno do jogador e outras fontes de luz.
+    args:
+      - name: time
+        type: number
+        min: 0
+        max: 30
+        default: 0.3
+        decimals: 2
+        text:
+          default: Fog dispersion time
+          pt: Tempo de dispersão da névoa
+        description:
+          default: The time it takes for the fog to be completely dispersed by players/light sources in seconds.
+          pt: |-
+            Tempo necessário para que a névoa disperse completamente em torno do jogador ou outras fontes de luz, em
+            segundos.

@@ -1,53 +1,48 @@
-# RPG Maker MZ - Typescript Plugin Archetype
+# Schach - Fog of war
 
-This is a template repository for writing Typescript plugins for RPG Maker MZ.
-The main purpose here is to set a basis from which other repositories can
-derive from and more easily be ready to start actual development.
+This plugin creates a "fog of war" effect on annotated maps.
 
+To enable the effect on a map, add the following tag to the map's notes:
 
-## Getting Started
+```
+[FoW]
+```
 
-First of all, make sure you run `npm install` to install all the dependencies
-for the project, such as [rollup.js](https://rollupjs.org/) and typescript.
+By default, the player is the only source of "light" that clears the fog.
 
-Make sure to set `package.json` up correctly, changing the package name to that
-of your plugin (this will be used to generate the output file) and adjust the
-values of the `version` and `description` fields (and, optionally, `keywords`).
-Also make sure to add a property `testProjectDir` if you want to test your
-plugin (can be relative).
+Events may be annotated to clear the fog, too, by adding the following comment on their command list (once per page;
+different pages may have different ranges):
 
-To configure plugin parameters and the likes, change `plugin-metadata.yaml`.
-Read more about it on [comuns-rpgmaker/plugin-metadata][plugin-metadata].
+```
+[FoW light source (range = N)]
+```
 
-[plugin-metadata]: https://github.com/comuns-rpgmaker/plugin-metadata
+Where "N" should be replaced by the radius of the light in tiles.
 
-Once you are done, `npm run build` will create a JS file for your plugin as
-`dist/js/plugins/{pkg.name}.js`.
+# Installation
 
-By default, the plugin is wrapped into an IIFE and everything you export from
-`./src/main.ts` is saved under a namespace to be configured in `package.json`.
+The [Releases](https://github.com/comuns-rpgmaker/schach-fog-of-war/releases) page contains downloadable `.js` files for the plugin.
 
-**TL;DR**:
+Refer to the [official plugin installation guide](https://www.rpgmakerweb.com/blog/using-plugins-in-mz) for further information.
 
-First:
-- `npm install`
-- Modify `package.json`
+## Building from source
 
-Then:
-- Modify `plugin-metadata.yaml` and write Typescript code on `src`
-- `npm run build`
-- Your plugin shows up compiled in `dist/js/plugins` (plus a debug build in
-  whatever test directory you set up!)
-- Repeat
+This plugin is built with [Node](https://nodejs.org/en/), so make sure you have it installed before continuing.
 
+To build the project, run:
 
-## Contributing
+    npm ci
+    npm run build
 
-This repo's purpose is **exclusively** providing a basic structure for other
-plugin repos.
-It is **not** the place to create core functionality! (i.e. no application
-code here!)
+This will output a file named `schach-fog-of-war.js` on the `dist/js/plugins`
+directory and a file named `schach-fog-of-war.debug.js` on `../../js/plugins`.
+The relative path is intenteded to be used such that you can clone the plugin
+repository into the `js` folder of a RMMZ project and test it easily.
 
-Changes to this repo **must not** demand that repos derived from it be changed,
-but it **should** be possible to update them to a more recent version of the
-archetype fairly easily.
+We recommend using [VS Code](https://code.visualstudio.com/) to build and edit
+sources, and ready-made settings for building and debugging the
+plugin on it are provided. 
+
+## License
+
+See [LICENSE](./LICENSE).

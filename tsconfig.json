@@ -1,13 +1,16 @@
 {
     "compilerOptions": {
         "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "ES2015",
         "target": "ES5",
         "lib": ["ES5", "ES6", "DOM"],
         "downlevelIteration": true,
         "removeComments": true,
         "strictNullChecks": true,
+        "stripInternal": true,
         "baseUrl": "src"
     },
-    "include": ["src/**/*", "spec/**/*"],
+    "include": ["src/**/*.ts", "src/shaders/*.d.ts", "spec/**/*"],
     "exclude": ["node_modules"]
 }
