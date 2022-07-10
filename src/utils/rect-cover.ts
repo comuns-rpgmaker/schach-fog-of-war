@@ -40,9 +40,9 @@ export class RectCover {
         return strips;
     }
 
-    minimize(): Rect[] {
+    minimize(): RectTrie<number> {
         const strips = this._slice();
-        const rectangles = new RectTrie();
+        const rectangles = new RectTrie<number>();
         for (const { x: sx, top, bottom } of strips) {
             const rect: Rect = [sx, top, sx, bottom];
 
@@ -64,8 +64,8 @@ export class RectCover {
             }
             rect[0] = x + 1;
 
-            rectangles.insert(rect);
+            rectangles.insert(rect, this._threshold);
         }
-        return [...rectangles];
+        return rectangles;
     }
 }

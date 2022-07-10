@@ -18,21 +18,17 @@ export class Game_FogOfWar {
         this._invalidated = false;
     }
 
-    static from(width: number, height: number, contourRects: Rect[][], contourValues: number[]): Game_FogOfWar {
+    static from(width: number, height: number, contours: Iterable<[Rect, number]>): Game_FogOfWar {
         const fog = new Game_FogOfWar();
         fog.reset(width, height);
         fog._data.fill(Game_FogOfWar.FOW_MAX_DARKNESS);
 
-        const contours = contourValues
-            .map((value, i) => [value, contourRects[i]] as [number, Rect[]])
-            .sort(([a,], [b,]) => b - a);
-
-        for (const [value, rects] of contours) {
-            for (const [left, top, right, bottom] of rects) {
-                for (let j = top; j <= bottom; j++) {
-                    for (let i = left; i <= right; i++) {
-                        fog._data[i + j * width] = value * Game_FogOfWar.FOW_MAX_DARKNESS;
-                    }
+        for (const [[left, top, right, bottom], value] of contours) {
+            for (let j = top; j <= bottom; j++) {
+                for (let i = left; i <= right; i++) {
+                    const idx = i + j * width;
+                    const newValue = value * Game_FogOfWar.FOW_MAX_DARKNESS;
+                    fog._data[idx] = Math.min(fog._data[idx], newValue|0);
                 }
             }
         }

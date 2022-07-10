@@ -6,9 +6,9 @@
  */
 
 import { Game_FogOfWar } from "game";
-import { RectCover } from "utils";
 
 import pluginParams from "parameters";
+import { RectCover, RectTrie } from "utils";
 
 declare class JsonEx {
     static _encode(value: unknown, depth: number): string
@@ -26,11 +26,12 @@ JsonEx._encode = function(value, depth): string {
     if (value instanceof Game_FogOfWar) {
         const width = value.width;
         const height = value.height;
-        const contours = pluginParams.advanced.saveRectCoverThresholds.map(threshold => {
+        const trie = new RectTrie<number>();
+        for (const threshold of pluginParams.advanced.saveRectCoverThresholds) {
             const cover = new RectCover(value as Game_FogOfWar, threshold);
-            return cover.minimize();
-        });
-        return _JsonEx_encode.call(this, { '@': 'Game_FogOfWar', width, height, contours }, depth + 1);
+            trie.merge(cover.minimize(), Math.min);
+        }
+        return _JsonEx_encode.call(this, { '@': 'Game_FogOfWar', width, height, contours: trie.encode() }, depth + 1);
     }
 
     return _JsonEx_encode.call(this, value, depth);
@@ -43,8 +44,7 @@ JsonEx._decode = function(value): unknown {
             return Game_FogOfWar.from(
                 value['width'],
                 value['height'],
-                value['contours'],
-                pluginParams.advanced.saveRectCoverThresholds);
+                RectTrie.decode(value['contours']));
         }
     }
     return _JsonEx_decode.call(this, value);
