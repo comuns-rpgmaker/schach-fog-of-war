@@ -8,6 +8,7 @@ module.exports = {
         "plugin:@typescript-eslint/recommended"
     ],
     rules: {
-        "brace-style": ["error", "1tbs", { "allowSingleLine": true }]
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 };

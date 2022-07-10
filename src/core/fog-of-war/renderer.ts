@@ -19,12 +19,7 @@ export class FogOfWarRenderer extends PIXI.ObjectRenderer {
     }
 
     private _createShader(): PIXI.Shader {
-        const fragmentSrc = {
-            bicubic: bicubicFragmentSrc,
-            bilinear: bilinearFragmentSrc,
-            nearest: nearestFragmentSrc
-        }[pluginParams.fogFilter];
-
+        const fragmentSrc = this.getFragmentSrc(pluginParams.fogFilter);
         return PIXI.Shader.from(vertexSrc, fragmentSrc, {
             uProjectionMatrix: new PIXI.Matrix(),
             uTint: new Float32Array([0, 0, 0]),
@@ -32,6 +27,15 @@ export class FogOfWarRenderer extends PIXI.ObjectRenderer {
             uGridSize: new Float32Array([48, 48]),
             uMapSize: new Float32Array([0, 0])
         });
+    }
+
+    getFragmentSrc(name: string): string {
+        switch (name) {
+            case "bicubic": return bicubicFragmentSrc
+            case "bilinear": return bilinearFragmentSrc
+            case "nearest": return nearestFragmentSrc
+            default: throw `unknown shader ${name}`;
+        }
     }
 
     get shader(): PIXI.Shader {

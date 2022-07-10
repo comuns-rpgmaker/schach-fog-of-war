@@ -48,7 +48,8 @@ class RectTrieNode {
     }
 
     *[Symbol.iterator](): Iterator<[number, RectTrieNode]> {
-        for (const [value, child] of Object.entries(this._children))
+        for (const [value, child] of Object.entries(this._children)) {
             yield [Number(value), child];
+        }
     }
 }

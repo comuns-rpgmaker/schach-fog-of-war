@@ -147,6 +147,28 @@ params:
         text:
           default: Nearest
           pt: Mais próximo
+  - name: advanced
+    text:
+      default: Advanced
+      pt: Avançado
+    description:
+      default: Advanced parameters for the plugin
+      pt: Parâmetros avançados do plugin
+    children:
+      - name: saveRectCoverThresholds
+        text:
+          default: Save rect cover thresholds
+          pt: Limites da cobertura por retângulos no save
+        description:
+          default: |-
+            List of threshold values for contour detection on save. More values imply bigger save files, but with finer
+            detail. Zero is implicit.
+          pt: |-
+            Lista de valores limitantes para a detecção de contornos no save. Mais valores implicam em arquivos de save
+            maiores, mas com maior precisão. O zero é implícito.
+        type: array
+        items: number
+        default: ["0.25", "0.5", "0.75"]
 
 commands:
   - name: setPlayerVisionRange

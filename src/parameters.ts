@@ -14,5 +14,8 @@ export default {
         blue: Number(tint.blue)
     },
     fogDispersionTime: Number(parameters['fogDispersionTime']),
-    fogFilter: parameters['fogFilter']
+    fogFilter: parameters['fogFilter'],
+    advanced: {
+        saveRectCoverThresholds: [0, ...JSON.parse(parameters['saveRectCoverThresholds']).map(Number)]
+    }
 };

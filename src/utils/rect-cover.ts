@@ -10,10 +10,12 @@ export type Grid = {
 type Strip = { x: number, top: number, bottom: number };
 
 export class RectCover {
-    private _grid: Grid
+    private readonly _grid: Grid
+    private readonly _threshold: number;
 
-    constructor(grid: Grid) {
+    constructor(grid: Grid, threshold: number) {
         this._grid = grid;
+        this._threshold = threshold;
     }
 
     private _slice(): Strip[] {
@@ -23,8 +25,7 @@ export class RectCover {
             for (let y = 0; y < this._grid.height; y++) {
                 const sy = y;
 
-                while (this._grid.at(x, y))
-                    y++;
+                while (this._grid.at(x, y) <= this._threshold) y++;
 
                 if (sy != y) {
                     strips.push({
@@ -43,21 +44,22 @@ export class RectCover {
         const strips = this._slice();
         const rectangles = new RectTrie();
         for (const { x: sx, top, bottom } of strips) {
-            const rect: Rect = [top, bottom, 0, 0];
+            const rect: Rect = [sx, top, sx, bottom];
 
             let x = sx;
             right: while (x < this._grid.width) {
-                for (let y = top; y <= bottom; y++)
-                    if (!this._grid.at(x, y)) break right;
-                
+                for (let y = top; y <= bottom; y++) {
+                    if (this._grid.at(x, y) > this._threshold) break right;
+                }
                 x++;
             }
             rect[2] = x - 1;
 
             x = sx;
             left: while (x >= 0) {
-                for (let y = top; y <= bottom; y++)
-                    if (!this._grid.at(x, y)) break left;
+                for (let y = top; y <= bottom; y++) {
+                    if (this._grid.at(x, y) > this._threshold) break left;
+                }
                 x--;
             }
             rect[0] = x + 1;
