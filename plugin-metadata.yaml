@@ -123,6 +123,30 @@ params:
       pt: |-
         Tempo necessário para que a névoa disperse completamente em torno do jogador ou outras fontes de luz, em
         segundos.
+  - name: fogFilter
+    type: select
+    text:
+      default: Fog filter
+      pt: Filtro da névoa
+    description:
+      default: |-
+        Filtering shader used for the fog effect. Nearest = pixelated, Bilinear = smooth, Bicubic = smoother.
+      pt: |-
+        Shader usado para o efeito de névoa. Mais próximo = pixelado, Bilinear = suave, Bicúbico = mais suave.
+    default: bicubic
+    options:
+      - value: bilinear
+        text:
+          default: Bilinear
+          pt: Bilinear
+      - value: bicubic
+        text:
+          default: Bicubic
+          pt: Bicúbico
+      - value: nearest
+        text:
+          default: Nearest
+          pt: Mais próximo
 
 commands:
   - name: setPlayerVisionRange

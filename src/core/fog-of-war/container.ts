@@ -18,6 +18,7 @@ export class FogOfWar extends PIXI.Container {
     private _visibleArea: Rect;
     private _resource: FogOfWarResource;
     private _texture: PIXI.BaseTexture;
+    private _state: PIXI.State
 
     constructor() {
         super();
@@ -25,6 +26,8 @@ export class FogOfWar extends PIXI.Container {
         this._vertexArray = new Float32Array(0);
         this._visibleArea = [0, 0, 0, 0];
         this._createVao();
+        // @ts-ignore
+        this._state = PIXI.State.for2d();
         this.refresh();
     }
 
@@ -85,11 +88,11 @@ export class FogOfWar extends PIXI.Container {
         renderer.texture.bind(this._texture, 0);
         this._updateIndexBuffer();
         renderer.geometry.bind(this._vao, shader);
-        // renderer.geometry.updateBuffers();
 
         const [l, t, r, b] = this._visibleArea;
         const numElements = (r - l + 2) * (b - t + 2);
         if (numElements > 0) {
+            renderer.state.set(this._state);
             renderer.geometry.draw(gl.TRIANGLES, numElements * 6, 0);
         }
     }

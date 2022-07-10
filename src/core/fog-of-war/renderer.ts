@@ -1,5 +1,10 @@
 import vertexSrc from "../../shaders/fog-of-war/vertex.vert";
-import fragmentSrc from "../../shaders/fog-of-war/bicubic.frag";
+
+import bicubicFragmentSrc from "../../shaders/fog-of-war/bicubic.frag";
+import bilinearFragmentSrc from "../../shaders/fog-of-war/bilinear.frag";
+import nearestFragmentSrc from "../../shaders/fog-of-war/nearest.frag";
+
+import pluginParams from "parameters";
 
 export class FogOfWarRenderer extends PIXI.ObjectRenderer {
     private _shader: PIXI.Shader
@@ -14,6 +19,12 @@ export class FogOfWarRenderer extends PIXI.ObjectRenderer {
     }
 
     private _createShader(): PIXI.Shader {
+        const fragmentSrc = {
+            bicubic: bicubicFragmentSrc,
+            bilinear: bilinearFragmentSrc,
+            nearest: nearestFragmentSrc
+        }[pluginParams.fogFilter];
+
         return PIXI.Shader.from(vertexSrc, fragmentSrc, {
             uProjectionMatrix: new PIXI.Matrix(),
             uTint: new Float32Array([0, 0, 0]),

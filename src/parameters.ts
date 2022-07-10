@@ -14,4 +14,5 @@ export default {
         blue: Number(tint.blue)
     },
     fogDispersionTime: Number(parameters['fogDispersionTime']),
+    fogFilter: parameters['fogFilter']
 };
